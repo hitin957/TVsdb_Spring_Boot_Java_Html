@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Телевизоры</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<form action="/Manager/">
+    <button type="submit">Перейти в панель Менеджера</button>
+</form>
+<h3 align="center">Добавление телевизора</h3>
+<form action="/TVs/add" method="post" th:object="${TV}">
+    <div align="center">
+        <input type="text" name="Name_TV" placeholder="Введите название телевизора" required>
+        <input type="text" name="Description_TV" placeholder="Введите описание телевизора" required>
+        <input type="number" name="Price_TV" placeholder="Введите цену телевизора" required>
+        <button class="btn btn-success" type="submit">Добавить Телевизор</button>
+    </div>
+</form>
+<b><p th:text="${message}" style="color: red"></p></b>
+<h2>Список всех телевизоров:</h2>
+<ul>
+    <th:block th:each="t:${TVs}">
+        <li>
+            <span th:text="${t.name_TV + ' ' + t.description_TV + ' ' + t.price_TV}"></span>
+            <br>
+            <form action="#" th:action="@{/TVs/update/{id}(id=${t.id})}" method="post" th:object="${t}" style="display: inline;">
+                <input type="hidden" name="id" th:value="${t.id}">
+                <input type="text" name="Name_TV" placeholder="Введите название телевизора" required>
+                <input type="text" name="Description_TV" placeholder="Введите описание телевизора" required>
+                <input type="number" name="Price_TV" placeholder="Введите цену телевизора" required>
+                <button class="btn btn-warning" type="submit">Обновить</button>
+            </form>
+            <form action="#" th:action="@{/TVs/delete/{id}(id=${t.id})}" method="post" style="display: inline;">
+                <input type="hidden" name="id" th:value="${t.id}">
+                <button class="btn btn-danger" type="submit">Удалить</button>
+            </form>
+        </li>
+        <br>
+    </th:block>
+    <b><p th:text="${up_message}" style="color: red"></p></b>
+</ul>
+</body>
+</html>
